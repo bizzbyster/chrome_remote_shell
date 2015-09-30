@@ -67,7 +67,7 @@ class Shell(object):
         if not tab:
             tab = 0
         wsurl = self.tablist[tab]['webSocketDebuggerUrl']
-        if self.soc.connected:
+        if self.soc is not None and self.soc.connected:
             self.soc.close()
         self.soc = websocket.create_connection(wsurl)
         return self.soc
@@ -88,7 +88,7 @@ class Shell(object):
 
     def open_url(self, url):
         """Open a URL in the oldest tab."""
-        if not self.soc or not.self.soc.connected:
+        if not self.soc or not self.soc.connected:
             self.connect(tab=0)
         # force the 'oldest' tab to load url
         navcom = json.dumps({"id": 0,
